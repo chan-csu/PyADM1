@@ -266,7 +266,7 @@ def ADM1_ODE(t, state_zero):
   return diff_S_su, diff_S_aa, diff_S_fa, diff_S_va, diff_S_bu, diff_S_pro, diff_S_ac, diff_S_h2, diff_S_ch4, diff_S_IC, diff_S_IN, diff_S_I, diff_X_xc, diff_X_ch, diff_X_pr, diff_X_li, diff_X_su, diff_X_aa, diff_X_fa, diff_X_c4, diff_X_pro, diff_X_ac, diff_X_h2, diff_X_I, diff_S_cation, diff_S_anion, diff_S_H_ion, diff_S_va_ion,  diff_S_bu_ion, diff_S_pro_ion, diff_S_ac_ion, diff_S_hco3_ion, diff_S_co2,  diff_S_nh3, diff_S_nh4_ion, diff_S_gas_h2, diff_S_gas_ch4, diff_S_gas_co2
 
 
-def simulate(t_step, solvermethod='RK45'):
+def simulate(t_step, solvermethod):
   r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,method= solvermethod)
   return r.y
 
@@ -430,4 +430,4 @@ print ('S_su =', S_su, "\n",
          'S_gas_co2 =', S_gas_co2)
 
 
-print(sim_S_pro)
+print(sim_S_fa.shape)
