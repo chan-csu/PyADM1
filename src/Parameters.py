@@ -100,17 +100,16 @@ k_dec_X_h2 =  0.02 #d^-1
 ## M is kmole m^-3
 
 # Physico-chemical parameter values from the Rosen et al (2006) BSM2 report
-T_ad = T_op #K
 
-K_w =  10 ** -14.0 * np.exp((55900 / (100 * R)) * (1 / T_base - 1 / T_ad)) #M #2.08 * 10 ^ -14
+K_w =  10 ** -14.0 * np.exp((55900 / (100 * R)) * (1 / T_base - 1 / T_op)) #M #2.08 * 10 ^ -14
 
 K_a_va =  10 ** -4.86 #M  ADM1 value = 1.38 * 10 ^ -5
 K_a_bu =  10 ** -4.82 #M #1.5 * 10 ^ -5
 K_a_pro =  10 ** -4.88 #M #1.32 * 10 ^ -5
 K_a_ac =  10 ** -4.76 #M #1.74 * 10 ^ -5
 
-K_a_co2 =  10 ** -6.35 * np.exp((7646 / (100 * R)) * (1 / T_base - 1 / T_ad)) #M #4.94 * 10 ^ -7
-K_a_IN =  10 ** -9.25 * np.exp((51965 / (100 * R)) * (1 / T_base - 1 / T_ad)) #M #1.11 * 10 ^ -9
+K_a_co2 =  10 ** -6.35 * np.exp((7646 / (100 * R)) * (1 / T_base - 1 / T_op)) #M #4.94 * 10 ^ -7
+K_a_IN =  10 ** -9.25 * np.exp((51965 / (100 * R)) * (1 / T_base - 1 / T_op)) #M #1.11 * 10 ^ -9
 
 k_A_B_va =  10 ** 10 #M^-1 * d^-1
 k_A_B_bu =  10 ** 10 #M^-1 * d^-1
@@ -119,12 +118,12 @@ k_A_B_ac =  10 ** 10 #M^-1 * d^-1
 k_A_B_co2 =  10 ** 10 #M^-1 * d^-1
 k_A_B_IN =  10 ** 10 #M^-1 * d^-1
 
-p_gas_h2o =  0.0313 * np.exp(5290 * (1 / T_base - 1 / T_ad)) #bar #0.0557
+p_gas_h2o =  0.0313 * np.exp(5290 * (1 / T_base - 1 / T_op)) #bar #0.0557
 k_p = 5 * 10 ** 4 #m^3.d^-1.bar^-1 #only for BSM2 AD conditions, recalibrate for other AD cases #gas outlet friction
 k_L_a =  200.0 #d^-1
-K_H_co2 =  0.035 * np.exp((-19410 / (100 * R))* (1 / T_base - 1 / T_ad)) #Mliq.bar^-1 #0.0271
-K_H_ch4 =  0.0014 * np.exp((-14240 / (100 * R)) * (1 / T_base - 1 / T_ad)) #Mliq.bar^-1 #0.00116
-K_H_h2 =  7.8 * 10 ** -4 * np.exp(-4180 / (100 * R) * (1 / T_base - 1 / T_ad)) #Mliq.bar^-1 #7.38*10^-4
+K_H_co2 =  0.035 * np.exp((-19410 / (100 * R))* (1 / T_base - 1 / T_op)) #Mliq.bar^-1 #0.0271
+K_H_ch4 =  0.0014 * np.exp((-14240 / (100 * R)) * (1 / T_base - 1 / T_op)) #Mliq.bar^-1 #0.00116
+K_H_h2 =  7.8 * 10 ** -4 * np.exp(-4180 / (100 * R) * (1 / T_base - 1 / T_op)) #Mliq.bar^-1 #7.38*10^-4
 
 # Physical parameter values used in BSM2 from the Rosen et al (2006) BSM2 report
 V_liq =  3400 #m^3
@@ -197,7 +196,7 @@ S_cation = 0.040 #kmole.m^-3 cations (metallic ions, strong base)
 S_anion = 0.020 #kmole.m^-3 anions (metallic ions, strong acid)
 
 
-pH = 7.4655377
+# pH = 7.4655377
 S_H_ion = 0.00000003423 #kmole H.m^-3
 S_va_ion = 0.011 #kg COD.m^-3 valerate
 S_bu_ion = 0.013 #kg COD.m^-3 butyrate
