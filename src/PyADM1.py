@@ -1,6 +1,9 @@
 from Parameters import *
 import matplotlib.pyplot as plt
 import numpy as np
+import scipy.integrate as it
+
+
 def ADM1_ODE(t, state_zero):
 
   S_su = state_zero[0]
@@ -389,58 +392,59 @@ S_nh4_ion =  (S_IN - S_nh3)
 S_co2 =  (S_IC - S_hco3_ion)
 pH = - np.log10(S_H_ion)
 
-print('DAE_switch =', DAE_switch)
-
-print ('S_su =', S_su, "\n",
-         'S_aa =', S_aa, "\n",
-         'S_fa =', S_fa, "\n",
-         'S_va =', S_va, "\n",
-         'S_bu =', S_bu, "\n",
-         'S_pro =', S_pro, "\n",
-         'S_ac =', S_ac, "\n",
-         'S_h2 =', S_h2, "\n",
-         'S_ch4 =', S_ch4, "\n",
-         'S_IC =', S_IC, "\n",
-         'S_IN =', S_IN, "\n",
-         'S_I =', S_I, "\n",
-         'X_xc =', X_xc, "\n",
-         'X_ch =', X_ch, "\n",
-         'X_pr =', X_pr, "\n",
-         'X_li =', X_li, "\n",
-         'X_su =', X_su, "\n",
-         'X_aa =', X_aa, "\n",
-         'X_fa =', X_fa, "\n",
-         'X_c4 =', X_c4, "\n",
-         'X_pro =', X_pro, "\n",
-         'X_ac =', X_ac, "\n",
-         'X_h2 =', X_h2, "\n",
-         'X_I =', X_I, "\n",
-         'S_cation =', S_cation,"\n", 
-         'S_anion =', S_anion, "\n",
-         'S_H_ion =', S_H_ion, "\n",
-         'S_va_ion =', S_va_ion, "\n",
-         'S_bu_ion =', S_bu_ion, "\n",
-         'S_pro_ion =', S_pro_ion, "\n",
-         'S_ac_ion =', S_ac_ion, "\n",
-         'S_hco3_ion =', S_hco3_ion, "\n",
-         'S_co2 =', S_co2, "\n",
-         'S_nh3 =', S_nh3, "\n",
-         'S_nh4_ion =', S_nh4_ion,"\n", 
-         'S_gas_h2 =', S_gas_h2, "\n",
-         'S_gas_ch4 =', S_gas_ch4, "\n",
-         'S_gas_co2 =', S_gas_co2)
-
+# print('DAE_switch =', DAE_switch)
+#
+# print ('S_su =', S_su, "\n",
+#          'S_aa =', S_aa, "\n",
+#          'S_fa =', S_fa, "\n",
+#          'S_va =', S_va, "\n",
+#          'S_bu =', S_bu, "\n",
+#          'S_pro =', S_pro, "\n",
+#          'S_ac =', S_ac, "\n",
+#          'S_h2 =', S_h2, "\n",
+#          'S_ch4 =', S_ch4, "\n",
+#          'S_IC =', S_IC, "\n",
+#          'S_IN =', S_IN, "\n",
+#          'S_I =', S_I, "\n",
+#          'X_xc =', X_xc, "\n",
+#          'X_ch =', X_ch, "\n",
+#          'X_pr =', X_pr, "\n",
+#          'X_li =', X_li, "\n",
+#          'X_su =', X_su, "\n",
+#          'X_aa =', X_aa, "\n",
+#          'X_fa =', X_fa, "\n",
+#          'X_c4 =', X_c4, "\n",
+#          'X_pro =', X_pro, "\n",
+#          'X_ac =', X_ac, "\n",
+#          'X_h2 =', X_h2, "\n",
+#          'X_I =', X_I, "\n",
+#          'S_cation =', S_cation,"\n",
+#          'S_anion =', S_anion, "\n",
+#          'S_H_ion =', S_H_ion, "\n",
+#          'S_va_ion =', S_va_ion, "\n",
+#          'S_bu_ion =', S_bu_ion, "\n",
+#          'S_pro_ion =', S_pro_ion, "\n",
+#          'S_ac_ion =', S_ac_ion, "\n",
+#          'S_hco3_ion =', S_hco3_ion, "\n",
+#          'S_co2 =', S_co2, "\n",
+#          'S_nh3 =', S_nh3, "\n",
+#          'S_nh4_ion =', S_nh4_ion,"\n",
+#          'S_gas_h2 =', S_gas_h2, "\n",
+#          'S_gas_ch4 =', S_gas_ch4, "\n",
+#          'S_gas_co2 =', S_gas_co2)
+#
 
 # print(sim_S_fa.shape)
 
 def Cost_function(Optimization_parameters):
   
-  pass
+
+
+  return simulate(tstep, solvermethod)[4][-1]+it.simps(Q_ad*simulate(tstep, solvermethod)[4],np.linspace(tstep[0],tstep[1],100))
 
 
 
-print(sim_S_su)
-plt.plot(sim_S_bu)
-# plt.plot(sim_S_ac)
-# plt.plot(sim_S_su)
-plt.show()
+
+
+
+

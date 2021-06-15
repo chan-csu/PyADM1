@@ -137,7 +137,7 @@ S_su_in = 0.01 #kg COD.m^-3
 S_aa_in = 0.001 #kg COD.m^-3
 S_fa_in = 0.001 #kg COD.m^-3
 S_va_in = 0.001 #kg COD.m^-3
-S_bu_in = 0.001 #kg COD.m^-3
+S_bu_in = 0 #kg COD.m^-3
 S_pro_in = 0.001 #kg COD.m^-3
 S_ac_in = 0.001 #kg COD.m^-3
 S_h2_in = 10 ** -8  #kg COD.m^-3
@@ -162,7 +162,7 @@ X_I_in = 25.0 #kg COD.m^-3
 S_cation_in = 0.04 #kmole.m^-3
 S_anion_in = 0.02 #kmole.m^-3
 
-Q_ad = 170.0 #m^-3.d^-1 flow rate
+Q_ad = 1000.0 #m^-3.d^-1 flow rate
 
 # SciPy ADM1 input array from Pettigrew (2017) jADM1 and Rosen et al (2006) BSM2 report
 # initiate variables (initial values for the reactor state at t0)
