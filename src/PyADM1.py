@@ -444,8 +444,8 @@ def Cost_function(Optimization_parameters):
 
   return -(simulate(tstep, solvermethod,parameters)[4][-1]+it.simps(parameters['Q_ad']*simulate(tstep, solvermethod,parameters)[4],np.linspace(tstep[0],tstep[1],100)))
 
-algorithm_param = {'max_num_iteration': 10,\
-                   'population_size':100,\
+algorithm_param = {'max_num_iteration': 1000,\
+                   'population_size':10,\
                    'mutation_probability':0.1,\
                    'elit_ratio': 0.01,\
                    'crossover_probability': 0.5,\
@@ -455,7 +455,4 @@ algorithm_param = {'max_num_iteration': 10,\
 
 
 model=ga(function=Cost_function,dimension=1,variable_type='real',variable_boundaries=np.array([[0,100]]),algorithm_parameters=algorithm_param)
-
-
-
 model.run()
