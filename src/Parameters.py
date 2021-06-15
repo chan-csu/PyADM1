@@ -100,7 +100,7 @@ k_dec_X_h2 =  0.02 #d^-1
 ## M is kmole m^-3
 
 # Physico-chemical parameter values from the Rosen et al (2006) BSM2 report
-T_ad =  308.15 #K
+T_ad = T_op #K
 
 K_w =  10 ** -14.0 * np.exp((55900 / (100 * R)) * (1 / T_base - 1 / T_ad)) #M #2.08 * 10 ^ -14
 
@@ -162,7 +162,7 @@ X_I_in = 25.0 #kg COD.m^-3
 S_cation_in = 0.04 #kmole.m^-3
 S_anion_in = 0.02 #kmole.m^-3
 
-Q_ad =  170.0 #m^-3.d^-1 flow rate
+Q_ad = 170.0 #m^-3.d^-1 flow rate
 
 # SciPy ADM1 input array from Pettigrew (2017) jADM1 and Rosen et al (2006) BSM2 report
 # initiate variables (initial values for the reactor state at t0)
@@ -183,11 +183,11 @@ S_I = 0.33 #kg COD.m^-3 soluble inerts
 X_xc = 0.31 #kg COD.m^-3 composites
 X_ch = 0.028 #kg COD.m^-3 carbohydrates
 X_pr = 0.1 #kg COD.m^-3 proteins
-X_li = 0.029 #kg COD.m^-3 lipids
+X_li = 0.1 #kg COD.m^-3 lipids
 X_su = 0.42 #kg COD.m^-3 sugar degraders
 X_aa = 1.18 #kg COD.m^-3 amino acid degraders
 X_fa = 0.24 #kg COD.m^-3 LCFA degraders
-X_c4 = 0.43 #kg COD.m^-3 valerate and butyrate degraders
+X_c4 = 0.01 #kg COD.m^-3 valerate and butyrate degraders
 X_pro = 0.14 #kg COD.m^-3 propionate degraders
 X_ac = 0.76 #kg COD.m^-3 acetate degraders
 X_h2 = 0.32 #kg COD.m^-3 hydrogen degraders

@@ -1,5 +1,6 @@
 from Parameters import *
-
+import matplotlib.pyplot as plt
+import numpy as np
 def ADM1_ODE(t, state_zero):
 
   S_su = state_zero[0]
@@ -267,7 +268,7 @@ def ADM1_ODE(t, state_zero):
 
 
 def simulate(t_step, solvermethod):
-  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,method= solvermethod)
+  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,method= solvermethod,t_eval=np.linspace(t_step[0],t_step[1],100))
   return r.y
 
 def DAESolve():
@@ -347,7 +348,7 @@ def DAESolve():
     j+=1
 
 ##time definition
-days = 200
+days = 10
 timeSteps = days * 24 * 4 #every 15 minutes 
 t = np.linspace(0, days, timeSteps) #sequence of timesteps as fractions of days
 
@@ -358,7 +359,7 @@ simulate_results = [0] * timeSteps #acts as a log for simulation results at each
 
 if DAE_switch == 0:
   solvermethod = 'Radau'
-  tstep = t
+  tstep =(0,t[-1])
   
   # solve ODE for next step 
   sim_S_su, sim_S_aa, sim_S_fa, sim_S_va, sim_S_bu, sim_S_pro, sim_S_ac, sim_S_h2, sim_S_ch4, sim_S_IC, sim_S_IN, sim_S_I, sim_X_xc, sim_X_ch, sim_X_pr, sim_X_li, sim_X_su, sim_X_aa, sim_X_fa, sim_X_c4, sim_X_pro, sim_X_ac, sim_X_h2, sim_X_I, sim_S_cation, sim_S_anion, sim_S_H_ion, sim_S_va_ion, sim_S_bu_ion, sim_S_pro_ion, sim_S_ac_ion, sim_S_hco3_ion, sim_S_co2, sim_S_nh3, sim_S_nh4_ion, sim_S_gas_h2, sim_S_gas_ch4, sim_S_gas_co2 = simulate(tstep, solvermethod)
@@ -382,7 +383,7 @@ else:
     sim_S_su[-1], sim_S_aa[-1], sim_S_fa[-1], sim_S_va[-1], sim_S_bu[-1], sim_S_pro[-1], sim_S_ac[-1], sim_S_h2[-1], sim_S_ch4[-1], sim_S_IC[-1], sim_S_IN[-1], sim_S_I[-1], sim_X_xc[-1], sim_X_ch[-1], sim_X_pr[-1], sim_X_li[-1], sim_X_su[-1], sim_X_aa[-1], sim_X_fa[-1], sim_X_c4[-1], sim_X_pro[-1], sim_X_ac[-1], sim_X_h2[-1], sim_X_I[-1], sim_S_cation[-1], sim_S_anion[-1], sim_S_H_ion[-1], sim_S_va_ion[-1], sim_S_bu_ion[-1], sim_S_pro_ion[-1], sim_S_ac_ion[-1], sim_S_hco3_ion[-1], sim_S_co2[-1], sim_S_nh3[-1], sim_S_nh4_ion[-1], sim_S_gas_h2[-1], sim_S_gas_ch4[-1], sim_S_gas_co2[-1]
     DAESolve()
     state_zero = [S_su, S_aa, S_fa, S_va, S_bu, S_pro, S_ac, S_h2, S_ch4, S_IC, S_IN, S_I, X_xc, X_ch, X_pr, X_li, X_su, X_aa, X_fa, X_c4, X_pro, X_ac, X_h2, X_I, S_cation, S_anion, S_H_ion, S_va_ion, S_bu_ion, S_pro_ion, S_ac_ion, S_hco3_ion, S_co2, S_nh3, S_nh4_ion, S_gas_h2, S_gas_ch4, S_gas_co2]
-    simulate_results[u] = state_zero
+    simulate_results.append(state_zero)
       
 S_nh4_ion =  (S_IN - S_nh3)
 S_co2 =  (S_IC - S_hco3_ion)
@@ -430,4 +431,16 @@ print ('S_su =', S_su, "\n",
          'S_gas_co2 =', S_gas_co2)
 
 
-print(sim_S_fa.shape)
+# print(sim_S_fa.shape)
+
+def Cost_function(Optimization_parameters):
+  
+  pass
+
+
+
+print(sim_S_su)
+plt.plot(sim_S_bu)
+# plt.plot(sim_S_ac)
+# plt.plot(sim_S_su)
+plt.show()
