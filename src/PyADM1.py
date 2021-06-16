@@ -6,8 +6,6 @@ import scipy.integrate as it
 from geneticalgorithm import geneticalgorithm as ga
 
 
-def ADM1_ODE(t, state_zero):
-
 def ADM1_ODE(t, state_zero,Parameters):
   Q_ad=parameters['Q_ad']
   S_su = state_zero[0]
@@ -457,14 +455,6 @@ algorithm_param = {'max_num_iteration': 1000,\
                    'crossover_type':'uniform',\
                    'max_iteration_without_improv':None}
 
-
-
-print(sim_S_su)
-plt.plot(sim_S_bu)
-# plt.plot(sim_S_ac)
-# plt.plot(sim_S_su)
-plt.plot(sim_S_ch4)
-plt.show()
 
 model=ga(function=Cost_function,dimension=1,variable_type='real',variable_boundaries=np.array([[0,100]]),algorithm_parameters=algorithm_param)
 model.run()
