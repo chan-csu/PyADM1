@@ -3,11 +3,13 @@ import matplotlib.pyplot as plt
 import numpy as np
 import scipy.optimize
 import scipy.integrate as it
-
+from geneticalgorithm import geneticalgorithm as ga
 
 
 def ADM1_ODE(t, state_zero):
 
+def ADM1_ODE(t, state_zero,Parameters):
+  Q_ad=parameters['Q_ad']
   S_su = state_zero[0]
   S_aa = state_zero[1]
   S_fa = state_zero[2]
@@ -272,8 +274,8 @@ def ADM1_ODE(t, state_zero):
   return diff_S_su, diff_S_aa, diff_S_fa, diff_S_va, diff_S_bu, diff_S_pro, diff_S_ac, diff_S_h2, diff_S_ch4, diff_S_IC, diff_S_IN, diff_S_I, diff_X_xc, diff_X_ch, diff_X_pr, diff_X_li, diff_X_su, diff_X_aa, diff_X_fa, diff_X_c4, diff_X_pro, diff_X_ac, diff_X_h2, diff_X_I, diff_S_cation, diff_S_anion, diff_S_H_ion, diff_S_va_ion,  diff_S_bu_ion, diff_S_pro_ion, diff_S_ac_ion, diff_S_hco3_ion, diff_S_co2,  diff_S_nh3, diff_S_nh4_ion, diff_S_gas_h2, diff_S_gas_ch4, diff_S_gas_co2
 
 
-def simulate(t_step, solvermethod):
-  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,method= solvermethod,t_eval=np.linspace(t_step[0],t_step[1],100))
+def simulate(t_step, solvermethod,parameters):
+  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,args=(parameters),method= solvermethod,t_eval=np.linspace(t_step[0],t_step[1],100))
   return r.y
 
 def DAESolve():
@@ -361,13 +363,13 @@ t = np.linspace(0, days, timeSteps) #sequence of timesteps as fractions of days
 DAE_switch = 0
 
 simulate_results = [0] * timeSteps #acts as a log for simulation results at each timestep
-
+parameters={}
 if DAE_switch == 0:
   solvermethod = 'Radau'
   tstep =(0,t[-1])
-  
+  parameters['Q_ad'] = 1
   # solve ODE for next step 
-  sim_S_su, sim_S_aa, sim_S_fa, sim_S_va, sim_S_bu, sim_S_pro, sim_S_ac, sim_S_h2, sim_S_ch4, sim_S_IC, sim_S_IN, sim_S_I, sim_X_xc, sim_X_ch, sim_X_pr, sim_X_li, sim_X_su, sim_X_aa, sim_X_fa, sim_X_c4, sim_X_pro, sim_X_ac, sim_X_h2, sim_X_I, sim_S_cation, sim_S_anion, sim_S_H_ion, sim_S_va_ion, sim_S_bu_ion, sim_S_pro_ion, sim_S_ac_ion, sim_S_hco3_ion, sim_S_co2, sim_S_nh3, sim_S_nh4_ion, sim_S_gas_h2, sim_S_gas_ch4, sim_S_gas_co2 = simulate(tstep, solvermethod)
+  sim_S_su, sim_S_aa, sim_S_fa, sim_S_va, sim_S_bu, sim_S_pro, sim_S_ac, sim_S_h2, sim_S_ch4, sim_S_IC, sim_S_IN, sim_S_I, sim_X_xc, sim_X_ch, sim_X_pr, sim_X_li, sim_X_su, sim_X_aa, sim_X_fa, sim_X_c4, sim_X_pro, sim_X_ac, sim_X_h2, sim_X_I, sim_S_cation, sim_S_anion, sim_S_H_ion, sim_S_va_ion, sim_S_bu_ion, sim_S_pro_ion, sim_S_ac_ion, sim_S_hco3_ion, sim_S_co2, sim_S_nh3, sim_S_nh4_ion, sim_S_gas_h2, sim_S_gas_ch4, sim_S_gas_co2 = simulate(tstep, solvermethod,parameters=parameters)
 
   #store ODE simulation result states
   S_su, S_aa, S_fa, S_va, S_bu, S_pro, S_ac, S_h2, S_ch4, S_IC, S_IN, S_I, X_xc, X_ch, X_pr, X_li, X_su, X_aa, X_fa, X_c4, X_pro, X_ac, X_h2, X_I, S_cation, S_anion, S_H_ion, S_va_ion, S_bu_ion, S_pro_ion, S_ac_ion, S_hco3_ion, S_co2, S_nh3, S_nh4_ion, S_gas_h2, S_gas_ch4, S_gas_co2 = \
@@ -439,15 +441,21 @@ pH = - np.log10(S_H_ion)
 # print(sim_S_fa.shape)
 
 def Cost_function(Optimization_parameters):
-  
+  parameters={}
+  tstep =(0,100)
+  solvermethod='Radau'
+  parameters['Q_ad']=Optimization_parameters[0]
 
+  return -(simulate(tstep, solvermethod,parameters)[4][-1]+it.simps(parameters['Q_ad']*simulate(tstep, solvermethod,parameters)[4],np.linspace(tstep[0],tstep[1],100)))
 
-  return simulate(tstep, solvermethod)[4][-1]+it.simps(Q_ad*simulate(tstep, solvermethod)[4],np.linspace(tstep[0],tstep[1],100))
-
-
-
-
-
+algorithm_param = {'max_num_iteration': 1000,\
+                   'population_size':10,\
+                   'mutation_probability':0.1,\
+                   'elit_ratio': 0.01,\
+                   'crossover_probability': 0.5,\
+                   'parents_portion': 0.3,\
+                   'crossover_type':'uniform',\
+                   'max_iteration_without_improv':None}
 
 
 
@@ -458,3 +466,5 @@ plt.plot(sim_S_bu)
 plt.plot(sim_S_ch4)
 plt.show()
 
+model=ga(function=Cost_function,dimension=1,variable_type='real',variable_boundaries=np.array([[0,100]]),algorithm_parameters=algorithm_param)
+model.run()
