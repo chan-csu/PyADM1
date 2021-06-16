@@ -7,7 +7,6 @@ from geneticalgorithm import geneticalgorithm as ga
 
 
 def ADM1_ODE(t, state_zero):
-  Q_ad=parameters['Q_ad']
   S_su = state_zero[0]
   S_aa = state_zero[1]
   S_fa = state_zero[2]
@@ -142,7 +141,6 @@ def ADM1_ODE(t, state_zero):
   Rho_T_9 =  (k_L_a * (S_ch4 - 64 * K_H_ch4 * p_gas_ch4))
   Rho_T_10 =  (k_L_a * (S_co2 - K_H_co2 * p_gas_co2))
 
-  S_H_ion = parameters['S_H_ion']
 
   ##differential equaitons from Rosen et al (2006) BSM2 report
   # differential equations 1 to 12 (soluble matter)
@@ -445,10 +443,11 @@ def Cost_function(Optimization_parameters):
   parameters={}
   tstep =(0,100)
   solvermethod='Radau'
-  parameters['Q_ad']=Optimization_parameters[0]
-  parameters['S_H_ion'] = Optimization_parameters[1]
+  Q_ad=Optimization_parameters[0]
+  S_H_ion= Optimization_parameters[1]
+  T_op= Optimization_parameters[2]
 
-  return -(simulate(tstep, solvermethod)[4][-1]+it.simps(parameters['Q_ad']*simulate(tstep, solvermethod)[4],np.linspace(tstep[0],tstep[1],100)))
+  return -(simulate(tstep, solvermethod)[4][-1]+it.simps(Q_ad*simulate(tstep, solvermethod)[4],np.linspace(tstep[0],tstep[1],100)))
 
 algorithm_param = {'max_num_iteration': 100,\
                    'population_size':10,\
@@ -460,5 +459,5 @@ algorithm_param = {'max_num_iteration': 100,\
                    'max_iteration_without_improv':None}
 
 
-model=ga(function=Cost_function,dimension=2,variable_type='real',variable_boundaries=np.array([[0,100],[10**-10,10**-3]]),algorithm_parameters=algorithm_param)
+model=ga(function=Cost_function,dimension=3,variable_type='real',variable_boundaries=np.array([[0,100],[10**-10,10**-3],[303,353]]),algorithm_parameters=algorithm_param)
 model.run()
