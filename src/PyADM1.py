@@ -6,8 +6,8 @@ import scipy.integrate as it
 from geneticalgorithm import geneticalgorithm as ga
 
 
-def ADM1_ODE(t, state_zero,Parameters):
-  Q_ad=Parameters['Q_ad']
+def ADM1_ODE(t, state_zero):
+  Q_ad=parameters['Q_ad']
   S_su = state_zero[0]
   S_aa = state_zero[1]
   S_fa = state_zero[2]
@@ -142,7 +142,7 @@ def ADM1_ODE(t, state_zero,Parameters):
   Rho_T_9 =  (k_L_a * (S_ch4 - 64 * K_H_ch4 * p_gas_ch4))
   Rho_T_10 =  (k_L_a * (S_co2 - K_H_co2 * p_gas_co2))
 
-  S_H_ion = Parameters['S_H_ion']
+  S_H_ion = parameters['S_H_ion']
 
   ##differential equaitons from Rosen et al (2006) BSM2 report
   # differential equations 1 to 12 (soluble matter)
@@ -274,8 +274,8 @@ def ADM1_ODE(t, state_zero,Parameters):
   return diff_S_su, diff_S_aa, diff_S_fa, diff_S_va, diff_S_bu, diff_S_pro, diff_S_ac, diff_S_h2, diff_S_ch4, diff_S_IC, diff_S_IN, diff_S_I, diff_X_xc, diff_X_ch, diff_X_pr, diff_X_li, diff_X_su, diff_X_aa, diff_X_fa, diff_X_c4, diff_X_pro, diff_X_ac, diff_X_h2, diff_X_I, diff_S_cation, diff_S_anion, diff_S_H_ion, diff_S_va_ion,  diff_S_bu_ion, diff_S_pro_ion, diff_S_ac_ion, diff_S_hco3_ion, diff_S_co2,  diff_S_nh3, diff_S_nh4_ion, diff_S_gas_h2, diff_S_gas_ch4, diff_S_gas_co2
 
 
-def simulate(t_step, solvermethod,parameters):
-  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,args=(parameters),method= solvermethod,t_eval=np.linspace(t_step[0],t_step[1],100))
+def simulate(t_step, solvermethod):
+  r = scipy.integrate.solve_ivp(ADM1_ODE, t_step, state_zero,method= solvermethod,t_eval=np.linspace(t_step[0],t_step[1],100))
   return r.y
 
 def DAESolve():
@@ -441,15 +441,16 @@ parameters={}
 # print(sim_S_fa.shape)
 
 def Cost_function(Optimization_parameters):
+  global parameters
   parameters={}
   tstep =(0,100)
   solvermethod='Radau'
   parameters['Q_ad']=Optimization_parameters[0]
   parameters['S_H_ion'] = Optimization_parameters[1]
 
-  return -(simulate(tstep, solvermethod,parameters)[4][-1]+it.simps(parameters['Q_ad']*simulate(tstep, solvermethod,parameters)[4],np.linspace(tstep[0],tstep[1],100)))
+  return -(simulate(tstep, solvermethod)[4][-1]+it.simps(parameters['Q_ad']*simulate(tstep, solvermethod)[4],np.linspace(tstep[0],tstep[1],100)))
 
-algorithm_param = {'max_num_iteration': 1000,\
+algorithm_param = {'max_num_iteration': 100,\
                    'population_size':10,\
                    'mutation_probability':0.1,\
                    'elit_ratio': 0.01,\
