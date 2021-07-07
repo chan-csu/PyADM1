@@ -45,5 +45,26 @@ Model.Components=[
                     {'Xh2'},
                     {'XI'}
                     ];
+Model.Parameter_Names=[
+                       {'f_sI_xc'},
+                       {'f_a_li'},
+                       {'Y_su'},
+                       {'f_bu_su'},
+                       {'f_pro_su'},
+                       {'f_ac_su'},
+                       {'f_h2_su'},
+                       {'N_bac'},
+                       ]
+for i=1:length(Model.Components)
+    Cis(i)={strcat('C',num2str(i))}
+end
+k=0
+for i=1:length(Model.Components)
+    for j=1:length(Model.Processes)
+    k=k+1    
+    vijs(k)={strcat('v_',num2str(i),'_',num2str(j))};
+    end
+end
+
 Model.S=zeros(length(Model.Components),length(Model.Processes))
 Model.Rates=zeros(length(Model.Processes),1)
