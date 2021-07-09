@@ -47,6 +47,10 @@ Model.Components=[
                     ];
 Model.Parameter_Names=[
                        {'f_sI_xc'};
+                       {'f_ch_xc'};
+                       {'f_pr_xc'};
+                       {'f_li_xc'};
+                       {'f_xI_xc'};
                        {'f_a_li'};
                        {'Y_su'};
                        {'f_bu_su'};
@@ -92,10 +96,10 @@ for i=1:length(Model.Components)
     Cis(i)={strcat('C',num2str(i))}
 end
 k=0
-for i=1:length(Model.Components)
-    for j=1:length(Model.Processes)
+for j=1:length(Model.Processes)
+    for i=1:length(Model.Components)
     k=k+1    
-    vijs(k)={strcat('v_',num2str(i),'_',num2str(j))};
+    vijs(k)={strcat('v_',num2str(j),'_',num2str(i))};
     end
 end
 
@@ -108,4 +112,10 @@ Model.Parameter_Names=[Model.Parameter_Names;
 
 Model.S=zeros(length(Model.Components),length(Model.Processes))
 Model.Rates=zeros(length(Model.Processes),1)
-
+Model.Parameter_Vals=zeros(size(Model.Parameter_Names))
+Model.S(1,[12 13 14 15 16 24])=[Parameter_Vals(1) -1 Parameter_Vals(2) Parameter_Vals(3) Parameter_Vals(4) Parameter_Vals(5)];
+Model.S(2,[1 14])=[1 -1];
+Model.S(3,[2 15])=[1 -1];
+Model.S(4,[1 3 16])=[1-Parameter_Vals(6) 1-Parameter_Vals(6) -1];
+Model.S(5,[1 5 6 7 8 10 11 17])=[-1 (1-Parameter_Vals(7))*Parameter_Vals(8) (1-Parameter_Vals(7))*Parameter_Vals(9)  (1-Parameter_Vals(7))*Parameter_Vals(10) (1-Parameter_Vals(7))*Parameter_Vals(11) 0 -Parameter_Vals(7)*Parameter_Vals(11) Parameter_Vals(7)]
+Model.S(5,10)= -sum(Parameter_Names([174,176:189]).*Parameter_Names([54,56:69]))
